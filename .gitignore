@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Databases
+*.db
+*.sqlite
+
+# Flask instance folder
+instance/
+
+# Configuration files with sensitive details
+*.cfg
+*.conf
+.env
+
+# Logs
+logs/
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Python environments
+venv/
+*.venv
+.env/
+.Python
+pip-delete-this-directory.txt
+
+# PyCharm, VS Code
+.idea/
+.vscode/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.eggs
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
