@@ -11,21 +11,22 @@ def inded():
 def create_user():
 	# processes JSON data and converts to variables
 	request_data = request.get_json()
-	#initializing variables
-	emailAddress = None
-	firstName = None
-	lastName = None
-	password = None
 	# check if variables exist in JSON request
 	if request_data:
+		#isinstance(data,dataType) returns True if data is of type dataType, False if else
+		#each if case checks if the data is in JSON request, and then checks if it is correct data type
 		if 'emailAddress' in request_data:
-			emailAddress = request_data['emailAddress']
+			if isinstance(request_data['emailAddress'],str):
+				emailAddress = request_data['emailAddress']
 		if 'firstName' in request_data:
-			firstName = request_data['firstName']
+			if isinstance(request_data['firstName'],str):
+				firstName = request_data['firstName']
 		if 'lastName' in request_data:
-			lastName = request_data['lastName']
+			if isinstance(request_data['lastName'],str):
+				lastName = request_data['lastName']
 		if 'password' in request_data:
-			password = request_data['password']
+			if isinstance(request_data['password'],str):
+				password = request_data['password']
 	#returns information sent from user
 	return '''
 			Email Address = {}
@@ -33,8 +34,3 @@ def create_user():
 			Last Name = {}
 			Password = {}
 	'''.format(emailAddress,firstName,lastName,password)
-
-#someone commented saying another useful 
-#method is "request.form.to_dict()" which takes
-#information from the form and 
-#automatically returns it in dictionary form
