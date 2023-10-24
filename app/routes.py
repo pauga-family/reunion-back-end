@@ -8,6 +8,10 @@ def inded():
 # "methods = post" will allow for only POST requests
 @app.route('/create-user', methods=['POST'])
 def create_user():
+	emailAddress = None
+	firstName = None
+	lastName = None
+	password = None
 	# processes JSON data and converts to variables
 	request_data = request.get_json()
 	# check if variables exist in JSON request
