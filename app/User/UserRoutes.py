@@ -1,9 +1,11 @@
-from flask import request
-from app import app
+from flask import app, request
+from app.User import bp
 
-@app.route('/')
-def inded():
-	return "Hello, World!"
+@bp.route('/')
+def base():
+    return 'This is the base user route'
+
+
 
 @app.route('/create-user', methods=['POST'])
 def create_user():
