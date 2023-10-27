@@ -11,7 +11,7 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     db.init_app(app)
-    migrate = Migrate(app, db)
+    migrate.init_app(app, db)
 
     #Avoid circular dependencies byimporting here
     from app.User import bp as user_bp
