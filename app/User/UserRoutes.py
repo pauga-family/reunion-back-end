@@ -1,5 +1,5 @@
 from app.User import bp
-from flask import request, abort
+from flask import request, abort, Response, json
 from .UserService import UserService
 
 userService = UserService()
@@ -13,26 +13,22 @@ def createUser():
     request_data = request.get_json()
     
     if request_data:
-        # if 'email' in request_data:
-        #     if isinstance(request_data['email'],str):
-        #         email = request_data['email']
-        if 'email' in request_data:
+        try:
             email = request_data['email']
-        if 'firstName' in request_data:
             firstName = request_data['firstName']
-        if 'lastName' in request_data:
             lastName = request_data['lastName']
-        if 'password' in request_data:
             password = request_data['password']
 
-        if email is None or firstName is None or lastName is None or password is None:
-            abort(422, description='Missing data')
+            if not isinstance(email, str) or not isinstance(firstName, str) or not isinstance(lastName, str) or not isinstance(password, str):
+                response = Response(response=json.dumps({"message_key": "Incorrect format"}),
+                                status=400,
+                                mimetype='application/json')
+                abort(response)
 
-        if not isinstance(email, str) or not isinstance(firstName, str) or not isinstance(lastName, str) or not isinstance(password, str):
-            abort(400, description='Incorrect format')
-
-        # return '''email is {},
-        # firstName is {},
-        # lastName is {}
-        # password is {}'''.format(email, firstName, lastName, password)
+        except KeyError:
+            response = Response(response=json.dumps({"message_key": "Missing data"}),
+                                status=422,
+                                mimetype='application/json')
+            abort(response)
+        
         return userService.create_user(firstName=firstName, lastName=lastName, email=email, password=password)
