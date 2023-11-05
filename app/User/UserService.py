@@ -6,6 +6,18 @@ class UserService:
     def create_user(self, firstName, lastName, email, password):
         user = User(firstName=firstName, lastName=lastName, email=email)
         user.set_password(password=password)
-        return 'User info: First Name: {}, Last Name: {}, email: {}, password hash: {}'.format(user.firstName, user.lastName, user.email, user.password_hash)
+        db.session.add(user)
+        db.session.commit()
+        print(User.query.all())
+        return user
     
-    # def login(self, user):
+    def delete_user(self, user_id):
+        user = User.query.get(user_id)
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            return True
+        return False
+    
+    def get_user(self, user_id):
+        return User.query.get(user_id)
