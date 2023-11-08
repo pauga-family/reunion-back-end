@@ -21,12 +21,12 @@ def create_user():
 		
 			if not isinstance(email, str) or not isinstance(firstName, str) or not isinstance(lastName, str) or not isinstance(password, str):
 				response.status = 400
-				response.response = create_failure_json("Invalid data")
+				response.response = _create_failure_json("Invalid data")
 
 				abort(response)
 		except:
 			response.status = 442
-			response.response = create_failure_json("Missing data")
+			response.response = _create_failure_json("Missing data")
 			abort(response)
 		return UserService.create_user(firstName=firstName, lastName=lastName, email=email, password=password)
 	
