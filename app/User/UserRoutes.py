@@ -30,14 +30,5 @@ def create_user():
 			abort(response)
 		return UserService.create_user(firstName=firstName, lastName=lastName, email=email, password=password)
 	
-def create_failure_json(message):
+def _create_failure_json(message):
 	return json.dumps({"messag_key": message})
-
-
-@bp.errorhandler(400)
-def handle_bad_request(error):
-    return 'Bad Request: Wrong data type found in the form.', 400
-
-@bp.errorhandler(422)
-def handle_unprocessable_entity(error):
-    return 'Bad Request: No information found in the form.', 400
