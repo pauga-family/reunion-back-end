@@ -1,6 +1,6 @@
 import json
 from flask import Response, app, request, abort
-from app.User import UserService, bp
+from app.User import UserModel, UserService, bp
 
 @bp.route('/')
 def base():
@@ -28,7 +28,10 @@ def create_user():
 			response.status = 442
 			response.response = _create_failure_json("Missing data")
 			abort(response)
-		return UserService.create_user(firstName=firstName, lastName=lastName, email=email, password=password)
+
+		user_instance = UserModel(firstName=firstName, lastName=lastName, email=email, password=password)
+		
+		return json.dumps(user_instance)
 	
 def _create_failure_json(message):
 	return json.dumps({"messag_key": message})
