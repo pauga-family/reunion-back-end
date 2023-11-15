@@ -25,7 +25,7 @@ def createUser():
             return _create_failure_json("Missing data"), 422
         
         user = userService.create_user(firstName=firstName, lastName=lastName, email=email, password=password)
-        token = authService.log_user_in(email=email, password=password)
+        user, token = authService.log_user_in(email=email, password=password)
         if token is None:
             return _create_failure_json("Something went wrong"), 400
         return _create_user_json(user, token)
@@ -45,10 +45,10 @@ def login():
         except:
             return _create_failure_json("Missing data"), 422
         
-        user = authService.log_user_in(email, password)
+        user, token = authService.log_user_in(email, password)
 
         if user:
-            return _create_user_json(user)
+            return _create_user_json(user, token)
         return _create_failure_json("Invalid email or password"), 400
     return _create_failure_json("No data"), 400
 

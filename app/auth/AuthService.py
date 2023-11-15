@@ -10,10 +10,9 @@ class AuthService:
     def log_user_in(self, email, password):
         user = self.userService.get_user_by_email(email)
         if user:
-            print(user)
             if user.check_password(password):
                 token = self._create_jwt_token(user)
-                return token
+                return user, token
             return None
         return None
     
