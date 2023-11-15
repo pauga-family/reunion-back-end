@@ -8,7 +8,7 @@ userService = UserService()
 authService = AuthService()
 
 @bp.route('/create-user', methods=['POST'])
-def createUser():
+def create_user():
     request_data = request.get_json()
     
     if request_data:
