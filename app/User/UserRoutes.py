@@ -11,7 +11,7 @@ userService = UserService()
 def getUser(user_id):
     user = userService.get_user_by_id(user_id)
     if user:
-        return _create_user_json(user)
+        return _create_user_json(user, "")
     return Response(status=400)
 
 @bp.route('/delete/<int:user_id>', methods=['DELETE'])
@@ -25,7 +25,7 @@ def deleteUser(user_id):
 def _create_failure_json(message):
     return jsonify({"message_key": message})
 
-def _create_user_json(user):
+def _create_user_json(user, token):
     return jsonify(
         {
             "access_token": token,
