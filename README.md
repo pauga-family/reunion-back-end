@@ -38,4 +38,4 @@ In your terminal, navigate to the project directory and enter:
 ```
 flask run
 ```
-The application should now be running at `http://localhost:5000`
+The application should now be running at `http://localhost:8000`
