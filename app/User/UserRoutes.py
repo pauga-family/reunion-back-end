@@ -1,37 +1,37 @@
-import json
-from flask import Response, app, request, abort
-from app.User import UserModel, UserService, bp
+from app.user import bp
+from flask import request, jsonify, Response
+from .UserService import UserService
+from flask_jwt_extended import jwt_required
 
-@bp.route('/')
-def base():
-    return 'This is the base user route'
+userService = UserService()
 
-@bp.route('/create-user', methods=['POST'])
-def create_user():
-	
-	request_data = request.get_json()
-	response = Response(mimetype='application/json')
+# Secure routes
+@bp.route('<int:user_id>', methods=['GET']) 
+@jwt_required()
+def getUser(user_id):
+    user = userService.get_user_by_id(user_id)
+    if user:
+        return _create_user_json(user)
+    return Response(status=400)
 
-	if request_data:
-		try:
-			email = request_data['email']
-			firstName = request_data['firstName']
-			lastName = request_data['lastName']
-			password = request_data['password']
-		
-			if not isinstance(email, str) or not isinstance(firstName, str) or not isinstance(lastName, str) or not isinstance(password, str):
-				response.status = 400
-				response.response = _create_failure_json("Invalid data")
+@bp.route('/delete/<int:user_id>', methods=['DELETE'])
+@jwt_required()
+def deleteUser(user_id):
+    if userService.delete_user(user_id):
+        return Response(status=200)
+    return Response(status=400)
 
-				abort(response)
-		except:
-			response.status = 442
-			response.response = _create_failure_json("Missing data")
-			abort(response)
-
-		user_instance = UserModel(firstName=firstName, lastName=lastName, email=email, password=password)
-		
-		return json.dumps(user_instance)
-	
+# Private methods    
 def _create_failure_json(message):
-	return json.dumps({"messag_key": message})
+    return jsonify({"message_key": message})
+
+def _create_user_json(user):
+    return jsonify(
+        {
+            "access_token": token,
+            "id": user.id, 
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "email": user.email
+        }
+    )
