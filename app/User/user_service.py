@@ -33,6 +33,7 @@ class UserService:
                     user.lastName = value
                 if key == "email":
                     user.email = value
+            db.session.commit()    
             
             return user
 
