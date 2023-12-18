@@ -21,11 +21,40 @@ def deleteUser(user_id):
         return Response(status=200)
     return Response(status=400)
 
+@bp.route('/update/<int:user_id>', methods=["PUT"])
+@jwt_required()
+def updateUser(user_id):
+    request_data = request.get_json()
+
+    if request_data:
+        propertiesDict = {}
+        # Properties are optional
+        if request_data['email'] is not None:
+            propertiesDict['emal'] = request_data['email']
+        if request_data['firstName'] is not None:
+            propertiesDict['firstName'] = request_data['firstName']
+        if request_data['lastName'] is not None:
+            propertiesDict['lastName'] = request_data['lastName']
+        
+        # Check if we have properties to update
+        if propertiesDict:
+            user = userService.update_user(user_id, propertiesDict)
+            if user:
+                return _user_json, 200
+            else:
+                return _failure_json("Unable to update user"), 422
+        
+        return _failure_json("No data to update"), 422
+        
+    return _failure_json("No data to update"), 422
+
+
+
 # Private methods    
-def _create_failure_json(message):
+def _failure_json(message):
     return jsonify({"message_key": message})
 
-def _create_user_json(user):
+def _user_json(user):
     return jsonify(
         {
             "id": user.id, 
