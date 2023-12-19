@@ -1,4 +1,4 @@
-from .UserModel import User
+from .user_model import User
 from app import db
 from flask_jwt_extended import create_access_token, current_user
 
