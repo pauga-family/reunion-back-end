@@ -1,11 +1,11 @@
 from app.auth import bp
-from ..user.UserService import UserService
-from flask import request, jsonify, Response
-from .AuthService import AuthService
+from ..user.user_service import UserService
+from flask import request, jsonify
+from .auth_service import AuthService
 from flask_jwt_extended import jwt_required
 
-userService = UserService()
-authService = AuthService()
+user_service = UserService()
+auth_service = AuthService()
 
 @bp.route('/create-user', methods=['POST'])
 def create_user():
@@ -24,8 +24,8 @@ def create_user():
         except:
             return _create_failure_json("Missing data"), 422
         
-        user = userService.create_user(firstName=firstName, lastName=lastName, email=email, password=password)
-        user, token = authService.log_user_in(email=email, password=password)
+        user = user_service.create_user(firstName=firstName, lastName=lastName, email=email, password=password)
+        user, token = auth_service.log_user_in(email=email, password=password)
         if token is None:
             return _create_failure_json("Something went wrong"), 400
         return _create_user_json(user, token)
@@ -45,7 +45,7 @@ def login():
         except:
             return _create_failure_json("Missing data"), 422
         
-        user, token = authService.log_user_in(email, password)
+        user, token = auth_service.log_user_in(email, password)
 
         if user:
             return _create_user_json(user, token)

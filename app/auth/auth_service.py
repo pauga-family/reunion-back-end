@@ -1,6 +1,6 @@
 from flask_jwt_extended import create_access_token, current_user, get_jwt, get_jwt_identity
-from app.user.UserModel import User
-from app.user.UserService import UserService
+from app.user.user_model import User
+from app.user.user_service import UserService
 from app import jwt
 from datetime import datetime, timedelta, timezone
 
