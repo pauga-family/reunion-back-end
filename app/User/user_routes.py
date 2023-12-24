@@ -11,7 +11,7 @@ user_service = UserService()
 def getUser(user_id):
     user = user_service.get_user_by_id(user_id)
     if user:
-        return _create_user_json(user)
+        return _user_json(user)
     return Response(status=400)
 
 @bp.route('/delete/<int:user_id>', methods=['DELETE'])
@@ -38,7 +38,7 @@ def updateUser(user_id):
         
         # Check if we have properties to update
         if propertiesDict:
-            user = userService.update_user(user_id, propertiesDict)
+            user = user_service.update_user(user_id, propertiesDict)
             if user:
                 return _user_json, 200
             else:
