@@ -11,15 +11,15 @@ user_service = UserService()
 def getUser(user_id):
     user = user_service.get_user_by_id(user_id)
     if user:
-        return _user_json(user)
-    return Response(status=400)
+        return _user_json(user), 200
+    return _failure_json('No user found'), 404
 
 @bp.route('/delete/<int:user_id>', methods=['DELETE'])
 @jwt_required()
 def deleteUser(user_id):
     if user_service.delete_user(user_id):
-        return Response(status=200)
-    return Response(status=400)
+        return 200
+    return _failure_json('Unable to delete user'), 400
 
 @bp.route('/update/<int:user_id>', methods=["PUT"])
 @jwt_required()
@@ -40,13 +40,13 @@ def updateUser(user_id):
         if propertiesDict:
             user = user_service.update_user(user_id, propertiesDict)
             if user:
-                return _user_json, 200
+                return _user_json(user), 200
             else:
                 return _failure_json("Unable to update user"), 422
         
         return _failure_json("No data to update"), 422
         
-    return _failure_json("No data to update"), 422
+    return _failure_json("No data to update"), 400
 
 
 

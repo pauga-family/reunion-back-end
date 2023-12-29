@@ -9,7 +9,7 @@ class UserService:
         user.set_password(password=password)
         db.session.add(user)
         db.session.commit()
-        print(User.query.all())
+
         return user
     
     def delete_user(self, user_id):
