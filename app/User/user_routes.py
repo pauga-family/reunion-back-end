@@ -29,11 +29,11 @@ def updateUser(user_id):
     if request_data:
         propertiesDict = {}
         # Properties are optional
-        if request_data['email'] is not None:
+        if request_data.get('email') is not None:
             propertiesDict['emal'] = request_data['email']
-        if request_data['firstName'] is not None:
+        if request_data.get('firstName') is not None:
             propertiesDict['firstName'] = request_data['firstName']
-        if request_data['lastName'] is not None:
+        if request_data.get('lastName') is not None:
             propertiesDict['lastName'] = request_data['lastName']
         
         # Check if we have properties to update
