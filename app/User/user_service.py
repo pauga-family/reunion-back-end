@@ -1,6 +1,7 @@
 from .user_model import User
 from app import db
-from flask_jwt_extended import create_access_token, current_user
+from flask_jwt_extended import current_user
+from typing import Dict
 
 class UserService:
     def create_user(self, firstName, lastName, email, password):
@@ -8,7 +9,7 @@ class UserService:
         user.set_password(password=password)
         db.session.add(user)
         db.session.commit()
-        print(User.query.all())
+
         return user
     
     def delete_user(self, user_id):
@@ -18,6 +19,24 @@ class UserService:
             db.session.commit()
             return True
         return False
+    
+    def update_user(self, user_id, updatedProperties: Dict[str, str]):
+        user = User.query.get(user_id)
+        if user is None or user != current_user:
+            return None
+        
+        if isinstance(updatedProperties, Dict):
+            for key, value in updatedProperties.items():
+                if key == "firstName":
+                    user.firstName = value
+                if key == "lastName":
+                    user.lastName = value
+                if key == "email":
+                    user.email = value
+            db.session.commit()    
+            
+            return user
+
     
     def get_user_by_id(self, user_id):
         if current_user:
