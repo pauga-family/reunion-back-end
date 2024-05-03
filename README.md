@@ -33,6 +33,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Setup DB
+If this is your first time pulling the project run
+```
+flask db upgrade
+```
+to setup the database on your local machine
+
 ## Running the Application
 In your terminal, navigate to the project directory and enter:
 ```
