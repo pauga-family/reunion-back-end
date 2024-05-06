@@ -1,5 +1,11 @@
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from enum import Enum
+
+class UserRole(Enum):
+    STANDARD = 'standard'
+    COMMITTEE = 'committee'
+    ADMIN = 'admin'
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -7,6 +13,7 @@ class User(db.Model):
     lastName = db.Column(db.String(64), index=True, unique=False)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    role = db.Column(db.String(64), index=False, unique=False,)
 
     def __repr__(self):
         return '<User {}>'.format(self.email)
