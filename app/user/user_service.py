@@ -1,4 +1,4 @@
-from .user_model import User
+from .user_model import User, UserRole
 from app import db
 from flask_jwt_extended import current_user
 from typing import Dict
@@ -7,6 +7,7 @@ class UserService:
     def create_user(self, firstName, lastName, email, password):
         user = User(firstName=firstName, lastName=lastName, email=email)
         user.set_password(password=password)
+        user.role = UserRole.STANDARD.value 
         db.session.add(user)
         db.session.commit()
 
