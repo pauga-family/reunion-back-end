@@ -21,6 +21,6 @@ def create_app(config_class=Config):
     app.register_blueprint(user_bp, url_prefix='/user')
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
-    from app.event import bp as event_bp
-    app.register_blueprint(event_bp, url_prefix='/event')
+    from app.events import bp as events_bp
+    app.register_blueprint(events_bp, url_prefix='/events')
     return app
